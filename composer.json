@@ -1,4 +1,15 @@
 {
+    "name": "sherman/x-framework-app",
+    "type": "library",
+    "description": "X-framework demo",
+    "keywords": ["php framework","micro"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zhenjun.xu",
+            "email": "412530435@qq.com"
+        }
+    ],
     "require": {
         "sherman/x": "^0.0.2"
     },

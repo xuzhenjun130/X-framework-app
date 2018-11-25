@@ -3,7 +3,7 @@
  * 前台程序配置主文件
  * @author zhenjun_xu <412530435@qq.com>
  */
-define('DOMAIN','demo.com');
+define('DOMAIN',$_SERVER['HTTP_HOST']);
 define("DOMAIN_LONG",'http://www.'.DOMAIN);
 define('X_DEBUG', true);
 return [
@@ -26,7 +26,7 @@ return [
             'tablePre' => ''
         ],
         'uploader'=>[
-            'class'=>\x\Uploader::class,
+            'class'=>X\Uploader::class,
             'savePath' =>__DIR__.'/../../upload/',
             'imgDomain' => DOMAIN_LONG.'/upload/'
         ],

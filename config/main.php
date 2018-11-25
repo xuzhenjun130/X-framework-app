@@ -15,7 +15,6 @@ return [
         'errorHandler' => [
             'class' => X\ErrorHandler::class,
             'discardOutput' => true,
-            'maxLine' => 10,
         ],
         'db' => [
             'class' => X\Db::class,

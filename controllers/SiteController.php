@@ -4,6 +4,7 @@ namespace controllers;
 use models\LoginForm;
 use models\Member;
 use X\Controller;
+use X\HtmlHelper;
 use X\X;
 
 /**
@@ -18,20 +19,38 @@ class SiteController extends Controller
     public $layout = "main";
 
     /***
-     * 首页
+     * 首页 用户列表
+     * @param int $p
      * @return string
      */
-    public function home(){
-        return  $this->render('home');
+    public function home($p){
+        $q = $this->get('q');
+        $params = []; //搜索参数
+        if(trim($q)){
+            $params[] = 'username like "%'.addslashes($q).'%"';
+        }
+        //分页
+        $page = X::app()->page;
+        $page->url = HtmlHelper::url('/',['q'=>$q]);
+        $page->count = Member::total($params);
+        $page->size  = 2;
+
+        $members = Member::findAll($params, 'id desc', ($p - 1) * $page->size . ',' . $page->size);
+        //pr($this->app->db->queries); 打印sql
+        return  $this->render('home', ['members'=>$members,'page'=>$page->display($p)]);
     }
 
     /**
-     * 传参快捷方法
-     * @param $a
-     * @param $b
+     *  详情
+     * @param $id
+     * @return string
      */
-    public function p1($a, $b){
-        echo $a, "\n\r", $b;
+    public function detail($id){
+        $model = Member::findById($id);
+        if(!$model){
+            return $this->error(['message'=>'找不到数据']);
+        }
+        return  $this->render('detail.blade',['model'=>$model]);
     }
 
     /***
@@ -101,4 +120,12 @@ class SiteController extends Controller
         $this->app->user->logout();
         $this->redirect('/');
     }
+    /**
+     * 404 错误页面
+     * @param array $params
+     */
+    public function error($params){
+        echo $this->render('error', $params);
+    }
+
 }

@@ -8,13 +8,18 @@
 
 use X\Router;
 
-Router::get('/', function () {
-    return  (new controllers\SiteController())->home();
+Router::error(function ($params){
+    (new controllers\SiteController())->error($params);
 });
 
-Router::get('site/p1', function ($a, $b = 0) {
-    return  (new controllers\SiteController())->p1($a, $b);
+Router::get('/', function ($p = 1) {
+    return  (new controllers\SiteController())->home($p);
 });
+
+Router::get('site/detail', function ($id) {
+    return  (new controllers\SiteController())->detail($id);
+});
+
 Router::get('site/add', function () {
     return  (new controllers\SiteController())->add();
 });
